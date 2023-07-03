@@ -6,5 +6,5 @@ descriptografe informando a senha que você definiu anteriormente
 
 # MODO DE INSTALAÇÃO
 
-pip install -r requirements.txt
+pip install -r requirements.txt <br>
 python3 main.py
