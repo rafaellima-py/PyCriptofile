@@ -9,3 +9,5 @@ Guarde a senha, pois ela será necessaria para descriptografar suas unidades de 
 
 pip install -r requirements.txt <br>
 python3 main.py
+
+![image](https://github.com/rafaellima-py/PyCriptofile/assets/45550842/682a4006-b519-45a7-bb02-2554cc64b6df)
