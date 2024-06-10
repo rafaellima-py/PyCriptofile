@@ -4,7 +4,8 @@ from PIL import Image
 from tkinter.filedialog import askdirectory
 import pyAesCrypt
 from time import sleep
-
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 # Importando icones
 lock_icone = ctk.CTkImage(Image.open('_icones/lock.png'), size=(50,50))
 unlock_icone = ctk.CTkImage(Image.open('_icones/unlock.png'), size=(50,50))
@@ -59,7 +60,11 @@ def criptografia():
                     pyAesCrypt.encryptFile(infile=f'{arquivo}', outfile=f'{arquivo.absolute()}.pct', passw=senha, bufferSize=1024*1024)
                     arquivo.unlink()
         c_sucesso.set('Em andamento. Talvez isso demore um pouco')
-        criptografar_arquivos()
+        
+        with ProcessPoolExecutor(max_workers=3) as executor:
+            executor.submit(criptografar_arquivos)
+            
+        
         c_erro.set('')
         c_sucesso.set('Sucesso')
         c_progresso.place_forget()
@@ -115,10 +120,10 @@ def transicao_desciptografar():
     criptografar_label.place_forget()
     descriptografar_label.place(y=0, x=210)
 
-def transicao_bruteforce():
-    criptografar_label.place_forget()
-    descriptografar_label.place_forget()
-    bruteforce_label.place(y=0, x=210)
+#def transicao_bruteforce():
+#    criptografar_label.place_forget()
+#    descriptografar_label.place_forget()
+    #bruteforce_label.place(y=0, x=210)
 
 
 
@@ -140,11 +145,11 @@ lock_bt.place(y=190-60, x=-10)
 unlock_bt = ctk.CTkButton(menu_frame, width=202, height=50, image=unlock_icone,command=transicao_desciptografar)
 unlock_bt.configure( text='DESCRIPTOGRAFAR',font=('Pacifico', 13),fg_color='transparent',hover_color='#191919')
 unlock_bt.place(y=190, x=-2)
-
+'''
 brutef_bt = ctk.CTkButton(menu_frame, width=210, height=50, image=senha_icone,command=transicao_bruteforce)
 brutef_bt.configure( text='  BRUTEFORCE   ',font=('Pacifico', 14),fg_color='transparent',hover_color='#191919')
 brutef_bt.place(y=250, x=-10)
-
+'''
 criptografar_label = ctk.CTkFrame(app, 590,600)
 criptografar_label.place_forget()
 descriptografar_label = ctk.CTkFrame(app, 590,600)
@@ -226,4 +231,4 @@ d_progresso.place_forget()
 app.mainloop()
 
 # Frame BruteForce
-bruteforce_label = ctk.CTkFrame(app,590,600)
+#bruteforce_label = ctk.CTkFrame(app,590,600)
